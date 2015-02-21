@@ -11,7 +11,7 @@ pub mod node {
   use capnp::traits::{FromStructBuilder, FromStructReader};
   use capnp::{primitive_list, enum_list, struct_list, text_list, data_list, list_list};
 
-  pub use self::Which::{File,Struct,Enum,Interface,Const,Annotation};
+  pub use self::Which::{File,Struct,Enum,Interface,Const,Annotation,Marker};
 
   #[derive(Copy)]
   pub struct Reader<'a> { reader : layout::StructReader<'a> }
@@ -373,6 +373,7 @@ pub mod node {
     Interface(A2),
     Const(A3),
     Annotation(A4),
+    Marker(::std::marker::PhantomData<&'a ()>),
   }
   pub type WhichReader<'a> = Which<'a,::schema_capnp::node::struct_::Reader<'a>,::schema_capnp::node::enum_::Reader<'a>,::schema_capnp::node::interface::Reader<'a>,::schema_capnp::node::const_::Reader<'a>,::schema_capnp::node::annotation::Reader<'a>>;
   impl <'a> Copy for WhichReader<'a> {}
@@ -1454,7 +1455,7 @@ pub mod field {
   use capnp::traits::{FromStructBuilder, FromStructReader};
   use capnp::{primitive_list, enum_list, struct_list, text_list, data_list, list_list};
 
-  pub use self::Which::{Slot,Group};
+  pub use self::Which::{Slot,Group,Marker};
 
   #[derive(Copy)]
   pub struct Reader<'a> { reader : layout::StructReader<'a> }
@@ -1682,6 +1683,7 @@ pub mod field {
   pub enum Which<'a,A0,A1> {
     Slot(A0),
     Group(A1),
+    Marker(::std::marker::PhantomData<&'a ()>),
   }
   pub type WhichReader<'a> = Which<'a,::schema_capnp::field::slot::Reader<'a>,::schema_capnp::field::group::Reader<'a>>;
   impl <'a> Copy for WhichReader<'a> {}
@@ -2639,7 +2641,7 @@ pub mod type_ {
   use capnp::traits::{FromStructBuilder, FromStructReader};
   use capnp::{primitive_list, enum_list, struct_list, text_list, data_list, list_list};
 
-  pub use self::Which::{Void,Bool,Int8,Int16,Int32,Int64,Uint8,Uint16,Uint32,Uint64,Float32,Float64,Text,Data,List,Enum,Struct,Interface,AnyPointer};
+  pub use self::Which::{Void,Bool,Int8,Int16,Int32,Int64,Uint8,Uint16,Uint32,Uint64,Float32,Float64,Text,Data,List,Enum,Struct,Interface,AnyPointer,Marker};
 
   #[derive(Copy)]
   pub struct Reader<'a> { reader : layout::StructReader<'a> }
@@ -3047,6 +3049,7 @@ pub mod type_ {
     Struct(A2),
     Interface(A3),
     AnyPointer(A4),
+    Marker(::std::marker::PhantomData<&'a ()>),
   }
   pub type WhichReader<'a> = Which<'a,::schema_capnp::type_::list::Reader<'a>,::schema_capnp::type_::enum_::Reader<'a>,::schema_capnp::type_::struct_::Reader<'a>,::schema_capnp::type_::interface::Reader<'a>,::schema_capnp::type_::any_pointer::Reader<'a>>;
   impl <'a> Copy for WhichReader<'a> {}
@@ -3540,7 +3543,7 @@ pub mod type_ {
     use capnp::traits::{FromStructBuilder, FromStructReader};
     use capnp::{primitive_list, enum_list, struct_list, text_list, data_list, list_list};
 
-    pub use self::Which::{Unconstrained,Parameter,ImplicitMethodParameter};
+    pub use self::Which::{Unconstrained,Parameter,ImplicitMethodParameter,Marker};
 
     #[derive(Copy)]
     pub struct Reader<'a> { reader : layout::StructReader<'a> }
@@ -3683,6 +3686,7 @@ pub mod type_ {
       Unconstrained(A0),
       Parameter(A1),
       ImplicitMethodParameter(A2),
+      Marker(::std::marker::PhantomData<&'a ()>),
     }
     pub type WhichReader<'a> = Which<'a,::schema_capnp::type_::any_pointer::unconstrained::Reader<'a>,::schema_capnp::type_::any_pointer::parameter::Reader<'a>,::schema_capnp::type_::any_pointer::implicit_method_parameter::Reader<'a>>;
     impl <'a> Copy for WhichReader<'a> {}
@@ -4193,7 +4197,7 @@ pub mod brand {
     use capnp::traits::{FromStructBuilder, FromStructReader};
     use capnp::{primitive_list, enum_list, struct_list, text_list, data_list, list_list};
 
-    pub use self::Which::{Bind,Inherit};
+    pub use self::Which::{Bind,Inherit,Marker};
 
     #[derive(Copy)]
     pub struct Reader<'a> { reader : layout::StructReader<'a> }
@@ -4355,6 +4359,7 @@ pub mod brand {
     pub enum Which<'a,A0> {
       Bind(A0),
       Inherit(()),
+      Marker(::std::marker::PhantomData<&'a ()>),
     }
     pub type WhichReader<'a> = Which<'a,struct_list::Reader<'a,::schema_capnp::brand::binding::Reader<'a>>>;
     impl <'a> Copy for WhichReader<'a> {}
@@ -4369,7 +4374,7 @@ pub mod brand {
     use capnp::traits::{FromStructBuilder, FromStructReader};
     use capnp::{primitive_list, enum_list, struct_list, text_list, data_list, list_list};
 
-    pub use self::Which::{Unbound,Type};
+    pub use self::Which::{Unbound,Type,Marker};
 
     #[derive(Copy)]
     pub struct Reader<'a> { reader : layout::StructReader<'a> }
@@ -4519,6 +4524,7 @@ pub mod brand {
     pub enum Which<'a,A0> {
       Unbound(()),
       Type(A0),
+      Marker(::std::marker::PhantomData<&'a ()>),
     }
     pub type WhichReader<'a> = Which<'a,::schema_capnp::type_::Reader<'a>>;
     impl <'a> Copy for WhichReader<'a> {}
@@ -4534,7 +4540,7 @@ pub mod value {
   use capnp::traits::{FromStructBuilder, FromStructReader};
   use capnp::{primitive_list, enum_list, struct_list, text_list, data_list, list_list};
 
-  pub use self::Which::{Void,Bool,Int8,Int16,Int32,Int64,Uint8,Uint16,Uint32,Uint64,Float32,Float64,Text,Data,List,Enum,Struct,Interface,AnyPointer};
+  pub use self::Which::{Void,Bool,Int8,Int16,Int32,Int64,Uint8,Uint16,Uint32,Uint64,Float32,Float64,Text,Data,List,Enum,Struct,Interface,AnyPointer,Marker};
 
   #[derive(Copy)]
   pub struct Reader<'a> { reader : layout::StructReader<'a> }
@@ -4998,6 +5004,7 @@ pub mod value {
     Struct(A3),
     Interface(()),
     AnyPointer(A4),
+    Marker(::std::marker::PhantomData<&'a ()>),
   }
   pub type WhichReader<'a> = Which<'a,text::Reader<'a>,data::Reader<'a>,::capnp::any_pointer::Reader<'a>,::capnp::any_pointer::Reader<'a>,::capnp::any_pointer::Reader<'a>>;
   impl <'a> Copy for WhichReader<'a> {}
