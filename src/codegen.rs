@@ -283,6 +283,9 @@ fn list_list_type_param(scope_map : &collections::hash_map::HashMap<u64, Vec<Str
                 type_::Interface(_i) => {
                     panic!("unimplemented");
                 }
+                type_::Marker(_) => {
+                    unreachable!()
+                }
             }
         }
     }
@@ -461,6 +464,9 @@ fn getter_text (_node_map : &collections::hash_map::HashMap<u64, schema_capnp::n
 
             }
         }
+        Some(field::Marker(_)) => {
+            unreachable!()
+        }
     }
 
     fn common_case<T: ::std::num::FromPrimitive + PartialEq + ::std::fmt::Display>(
@@ -527,10 +533,16 @@ fn zero_fields_of_group(node_map : &collections::hash_map::HashMap<u64, schema_c
                                         // PERF could dedup more efficiently
                                         if !result.contains(&line) { result.push(line) }
                                     }
+                                    type_::Marker(_) => {
+                                        unreachable!()
+                                    }
                                 }
                             }
                             None => {panic!()}
                         }
+                    }
+                    Some(field::Marker(_)) => {
+                        unreachable!()
                     }
                 }
             }
@@ -703,6 +715,7 @@ fn generate_setter(node_map : &collections::hash_map::HashMap<u64, schema_capnp:
                                 }
                                 type_::AnyPointer(_) => {panic!("List(AnyPointer) not supported")}
                                 type_::Interface(_) => { panic!("unimplemented") }
+                                type_::Marker(_) => { unreachable!() }
                             }
                         }
                     }
@@ -738,8 +751,14 @@ fn generate_setter(node_map : &collections::hash_map::HashMap<u64, schema_capnp:
                     initter_interior.push(Line("result".to_string()));
                     (None, Some("::capnp::any_pointer::Builder<'a>".to_string()))
                 }
+                Some(type_::Marker(_)) => {
+                    unreachable!()
+                }
                 None => { panic!("unrecognized type") }
             }
+        }
+        Some(field::Marker(_)) => {
+            unreachable!()
         }
     };
     let mut result = Vec::new();
@@ -925,6 +944,9 @@ fn generate_haser(discriminant_offset : u32,
                 _ => {}
             }
         }
+        Some(field::Marker(_)) => {
+            unreachable!()
+        }
     }
 
     Branch(result)
@@ -976,6 +998,10 @@ fn generate_pipeline_getter(_node_map : &collections::hash_map::HashMap<u64, sch
                     return Branch(Vec::new());
                 }
             }
+        }
+
+        Some(field::Marker(_)) => {
+            unreachable!()
         }
     }
 }
@@ -1522,6 +1548,10 @@ fn generate_node(node_map : &collections::hash_map::HashMap<u64, schema_capnp::n
             if annotation_reader.get_targets_annotation() {
                 println!("  targets annotation");
             }
+        }
+
+        Some(node::Marker(_)) => {
+            unreachable!()
         }
 
         None => ()
