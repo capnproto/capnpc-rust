@@ -59,6 +59,7 @@ pub fn compile(prefix : &::std::path::Path, files : &[&::std::path::Path]) -> ::
 
     let out_dir = ::std::path::PathBuf::new(::std::env::var("OUT_DIR").unwrap().as_slice());
     let cwd = ::std::env::current_dir().unwrap();
+    let original_cwd = cwd.clone();
     ::std::env::set_current_dir(&out_dir).unwrap();
 
     // ::std::Path does not normalize "foo/." to "foo/", and the schema compiler does not recognize
@@ -86,6 +87,6 @@ pub fn compile(prefix : &::std::path::Path, files : &[&::std::path::Path]) -> ::
     let child_stdout = ::capnp::io::ReadInputStream::new(p.stdout.take().unwrap());
     try!(::codegen::main(child_stdout));
     try!(p.wait());
+    ::std::env::set_current_dir(&original_cwd).unwrap();
     return Ok(());
 }
-
