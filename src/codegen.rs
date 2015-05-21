@@ -235,7 +235,7 @@ fn populate_scope_map(node_map : &collections::hash_map::HashMap<u64, schema_cap
 
 fn generate_import_statements() -> FormattedText {
     Branch(vec!(
-        Line("#![allow(unused_imports)]".to_string()),
+        Line("#![allow(dead_code, missing_docs, unused_imports)]".to_string()),
         Line("use capnp::capability::{FromClientHook, FromTypelessPipeline};".to_string()),
         Line("use capnp::{text, data, Result};".to_string()),
         Line("use capnp::private::layout;".to_string()),
@@ -1324,8 +1324,7 @@ fn generate_node(node_map : &collections::hash_map::HashMap<u64, schema_capnp::n
 
             private_mod_interior.push(Line(format!("pub const TYPE_ID: u64 = {:#x};", node_id)));
 
-            mod_interior.push(Line ("#![allow(unused_variables)]".to_string()));
-            mod_interior.push(Line("#![allow(unused_imports)]".to_string()));
+            mod_interior.push(Line("#![allow(dead_code, missing_docs, unused_imports, unused_variables)]".to_string()));
             mod_interior.push(
                 Line("use capnp::capability::{FromClientHook, Request, FromServer};".to_string()));
             mod_interior.push(
