@@ -69,7 +69,8 @@ pub fn compile<P1, P2>(prefix : P1, files : &[P2]) -> ::capnp::Result<()>
     command.stdout(::std::process::Stdio::piped());
     command.stderr(::std::process::Stdio::inherit());
 
-    let mut p =  try!(command.spawn());
+    let mut p = command.spawn()
+        .unwrap_or_else(|e| { panic!("failed to execute capnp binary: {}", e) });
     try!(::codegen::main(p.stdout.take().unwrap(),
                          ::std::path::Path::new(&::std::env::var("OUT_DIR").unwrap())));
     try!(p.wait());
